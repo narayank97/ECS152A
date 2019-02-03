@@ -39,6 +39,7 @@ int main(int argc, char* argv [])
                 string dbComp = lineDB.substr(0,counter).c_str();
                 string ipComp = listOfIps[i].substr(0,counter).c_str();
 
+
                 if(dbComp == ipComp)
                 {
                     if(possibleMatches.empty())
@@ -54,29 +55,31 @@ int main(int argc, char* argv [])
                     }                    
                 }
             }
-            int periodCount = 0;
-            for(int j = 0; j < counter; j++)
+            int spaceCounter = 0;
+            string myMatch = possibleMatches[0]; // this has a new line with it DO SOMETHING ABOUT IT
+            for(int j = 0; j < myMatch.size() - 1; j++)
             {
-                
-                if(possibleMatches[0][j] == '.')
+                if(myMatch[j] == ' ' && spaceCounter == 0)
                 {
-                    periodCount++;
+                    spaceCounter++;
+                    outfile << '/';
                 }
-                cout << possibleMatches[0][j];
+                else if(myMatch[j] == ' ' && spaceCounter != 0)
+                {
+                    spaceCounter++;
+                    outfile << ' ';
+                }
+                else
+                {
+                    outfile << myMatch[j];
+                } 
             }
-            if(possibleMatches[0][counter] == '.')
+            outfile << ' ' << listOfIps[i].substr(0 , listOfIps[i].size() - 1);  // writes to output.txt
+            if(i != listOfIps.size() - 1)
             {
-                cout << ".0";
+                outfile << endl;
             }
-            while(periodCount != 2)
-            {
-                cout << ".0";
-                periodCount++;
-            }
-
-            cout << endl;
-            //cout<<possibleMatches[0]<< endl;  
-            outfile<< possibleMatches[0] << endl;  // writes to output.txt
+            
             possibleMatches.erase(possibleMatches.begin());  
         }
         myfileDB.clear(); //clears the buffer
